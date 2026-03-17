@@ -19,13 +19,18 @@ static void count_file_callback(const char *path, void *user_data) {
 }
 
 static void print_usage(const char *prog) {
-    fprintf(stderr, "Usage: %s <project-path>\\n", prog);
+    fprintf(stderr, "Usage: %s <project-path>\n", prog);
 }
 
 int main(int argc, char **argv) {
-    if (argc != 2 || strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
+    if (argc != 2) {
         print_usage(argv[0]);
-        return (argc == 2) ? 0 : 1;
+        return 1;
+    }
+
+    if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
+        print_usage(argv[0]);
+        return 0;
     }
 
     const char *root = argv[1];

@@ -68,6 +68,15 @@ int fs_walk_directory(const char *root_path, file_callback cb, void *user_data) 
     if (!root_path || !cb) {
         return -1;
     }
+    struct stat st;
+    if (stat(root_path, &st) != 0) {
+        fprintf(stderr, "Failed to stat root '%s': %s\n", root_path, strerror(errno));
+        return -1;
+    }
+    if (!S_ISDIR(st.st_mode)) {
+        fprintf(stderr, "Path '%s' is not a directory\n", root_path);
+        return -1;
+    }
     return walk_internal(root_path, cb, user_data);
 }
 
